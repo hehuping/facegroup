@@ -22,14 +22,17 @@ class Index
     }
 
     public function addFace(){
-        $uploads_dir  =  './uploads' ;
+        $uploads_dir  =  ROOT_PATH.'uploads' ;
+        if(!is_dir($uploads_dir)){
+            mkdir($uploads_dir);
+        }
         foreach ( $_FILES [ "file" ][ "error" ] as  $key  =>  $error ) {
             if ( $error  ==  UPLOAD_ERR_OK ) {
                 $tmp_name  =  $_FILES [ "file" ][ "tmp_name" ][ $key ];
                 $name  = time().$_FILES [ "file" ][ "name" ][ $key ];
-                move_uploaded_file ( $tmp_name ,  " $uploads_dir / $name " );
+                move_uploaded_file ( $tmp_name ,  "$uploads_dir/$name" );
             }
         }
-        return json($_FILES);
+        return json(['filename'=> "$uploads_dir/$name"]);
     }
 }
