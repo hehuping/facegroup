@@ -43,7 +43,7 @@ class Index
                 //搜索topface
                 $res = YouTu::faceidentifyurl($this->base_url.$name, $group_id);
                 //新增优图个体
-               $re = YouTu::newperson($this->base_url.$name, $person_id, [$group_id],$person_id, $this->base_url.$name);
+               $re = YouTu::newpersonurl($this->base_url.$name, $person_id, ['tencent'],$person_id, $this->base_url.$name);
                 //插入数据库
                 Db::table('face')->data(
                     [
