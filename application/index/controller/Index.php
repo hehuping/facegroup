@@ -33,6 +33,6 @@ class Index
             $name = time() . $_FILES ["file"]["name"];
             move_uploaded_file($tmp_name, "$uploads_dir/$name");
         }
-        return json(['filename' => "$uploads_dir/$name"]);
+        return json(['filename' => $name, 'size'=> $_FILES ["file"]['size']]);
     }
 }
