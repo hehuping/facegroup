@@ -47,7 +47,7 @@ class Index
                 //插入数据库
                 Db::table('face')->data(
                     [
-                        'face_id' => $re['face_id'],
+                        'face_id' => json_encode($re),
                         'user_id' => $person_id,
                         'nickName'=>$person_id,
                         'img_url' => $this->base_url.$name,
