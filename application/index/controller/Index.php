@@ -29,7 +29,7 @@ class Index
     public function uploadFace()
     {
          $group_id = 'test_group_id';
-        $person_id = 'test_person_id';
+        $person_id = 'test_person_id'.rand(1,10000);
         header('Content-type: application/json');
         $uploads_dir = ROOT_PATH . '/public/uploads';
         if (!is_dir($uploads_dir)) {
