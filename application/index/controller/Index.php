@@ -71,7 +71,7 @@ class Index
 
     protected function addToPerson($filename, $groupid){
         //新增个体
-       return  YouTu::newperson($this->base_url.$filename, 'test_id', ['test_group'],'test_name', '');
+       return  YouTu::newperson($this->base_url.$filename, 'test_id', ['tencent'],'test_name', '');
     }
 
     protected function Top5Face($path){
