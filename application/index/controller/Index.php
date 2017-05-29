@@ -57,7 +57,7 @@ class Index
                     ]
                 )->insert();
 
-                return json($res);
+                return json($re);
 
             }else{
                 return json(['error'=> -1]);
