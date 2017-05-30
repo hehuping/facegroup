@@ -25,7 +25,7 @@ class Index
     public function getsession()
     {
         $code = Request::instance()->param('code');
-        $userInfo = Request::instance()->post('userInfo');
+        $userInfo = $_POST('userInfo');
         $appid = Config::get('appid');
         $secret = Config::get('secret');
         $url = "https://api.weixin.qq.com/sns/jscode2session?appid={$appid}&secret={$secret}&js_code={$code}&grant_type=authorization_code";
