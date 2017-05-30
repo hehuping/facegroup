@@ -75,6 +75,7 @@ class Index
                         $newperson_re = YouTu::newpersonurl($this->base_url.$name, $openid, $youtu_group_id,$openid, $this->base_url.$name);
                         //更新数据库face_id
                         Db::table('face')->where('person_id', $openid)->update(['face_id' => $newperson_re['face_id'], 'youtu_group_id' => implode(',', $youtu_group_id)]);
+                        return $res;
                     }else{
                         //删除失败
                         return json(['error'=> -1,'message' => '个体删除失败']);
