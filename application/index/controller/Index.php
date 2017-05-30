@@ -104,7 +104,7 @@ class Index
                             ]
                         )->insert();
                     }else{
-                        return json(['error'=> -6,'message' => '人脸识别失败']);
+                        return json(['error'=> -6,'message' => '人脸识别失败', 'info'=>$newperson_re]);
                     }
 
                 }
