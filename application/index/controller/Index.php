@@ -63,7 +63,7 @@ class Index
                 //搜索topface
                 $res = YouTu::faceidentifyurl($this->base_url.$name, $group_id);
                 //查看个体是否存在
-                $youtu_group_id = Db::table('face')->where('person_id', $openid)->column('youtu_group_id');
+                $youtu_group_id = Db::table('face')->where('person_id', $openid)->value('youtu_group_id');
                 //存在，收费，删除现有
                 if(!empty($youtu_group_id)){
                     $youtu_group_id = explode(',', $youtu_group_id);
