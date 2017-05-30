@@ -68,7 +68,7 @@ class Index
                 if(!empty($youtu_group_id)){
                     $youtu_group_id = explode(',', $youtu_group_id);
                     $youtu_group_id = in_array($group_id, $youtu_group_id) ? $youtu_group_id : array_push($youtu_group_id,$group_id);
-                    $re_del = json_decode(YouTu::delperson($openid));
+                    $re_del = YouTu::delperson($openid);
                     //删除成功
                     if($re_del['errorCode'] == 0){
                         //新增优图个体
