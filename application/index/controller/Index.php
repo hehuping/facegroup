@@ -34,8 +34,13 @@ class Index
         $openid =$res_arr['openid'];
         //查询数据库是否有此记录(异步，redis)
         $post['openid'] = $openid;
-        unset($post['code']);
-        Db::table('user')->insert($post);
+       $find = Db::table('face')->where('openid', $openid)->column('openid');
+        if(empty($find)){
+            unset($post['code']);
+            Db::table('user')->insert($post);
+        }else{
+            //更新
+        }
         return $res;
     }
 
