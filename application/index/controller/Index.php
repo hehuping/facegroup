@@ -3,7 +3,9 @@ namespace app\index\controller;
 
 use TencentYoutuyun\Conf;
 use TencentYoutuyun\YouTu;
+use think\Config;
 use think\Db;
+use think\Request;
 
 class Index
 {
@@ -20,9 +22,15 @@ class Index
         Conf::setAppInfo($appid, $secretId, $secretKey, $userid, $end_point);
     }
 
-    public function index()
+    public function getsession()
     {
-        return 1;
+        $code = Request::instance()->param('code');
+        $appid = Config::get('appid');
+        $secret = Config::get('secret');
+        $url = "https://api.weixin.qq.com/sns/jscode2session?appid={$appid}&secret={$secret}&js_code={$code}&grant_type=authorization_code";
+        $res = file_get_contents($url);
+        session('user', json_decode($res));
+        return $res;
     }
 
 
@@ -93,5 +101,16 @@ class Index
     public function getFace($id){
         $id = $id ? $id : $_GET['id'];
         return json(YouTu::getfaceids($id));
+    }
+
+    public function delPerson(){
+        $group_id = YouTu::getgroupids()['group_ids'];
+        foreach($group_id as $v){
+            $person = YouTu::getpersonids($v)['person_ids'];
+            foreach($person as $v2){
+                print_r(YouTu::delperson($v2));
+            }
+        }
+
     }
 }

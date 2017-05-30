@@ -234,4 +234,8 @@ return [
         'var_page'  => 'page',
         'list_rows' => 15,
     ],
+
+    //小程序配置
+    'appid' => 'wx35c1a6ac692bb328',
+    'secret' => '0dcdbe974f0ded14b850ec0d44253af5',
 ];
