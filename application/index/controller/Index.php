@@ -33,7 +33,7 @@ class Index
         $res_arr = (array)json_decode($res);
         $openid =$res_arr['openid'];
         //查询数据库是否有此记录(异步，redis)
-        $userInfo['openid'] = $openid;
+       // $userInfo['openid'] = $openid;
         Db::table('user')->insert($userInfo);
         return $res;
     }
