@@ -25,11 +25,15 @@ class Index
     public function getsession()
     {
         $code = Request::instance()->param('code');
+        $userInfo = Request::instance()->param('userInfo');
         $appid = Config::get('appid');
         $secret = Config::get('secret');
         $url = "https://api.weixin.qq.com/sns/jscode2session?appid={$appid}&secret={$secret}&js_code={$code}&grant_type=authorization_code";
         $res = file_get_contents($url);
-        session('user', json_decode($res));
+        $openid = $res['data']['openid'];
+        //查询数据库是否有此记录(异步，redis)
+        $userInfo['openid'] = $openid;
+        Db::table('user')->insert($userInfo);
         return $res;
     }
 
@@ -38,6 +42,7 @@ class Index
     {
          $group_id = 'test_group_id';
         $person_id = 'test_person_id'.rand(1,10000);
+        $openid = Request::instance()->param('openid');
         header('Content-type: application/json');
         $uploads_dir = ROOT_PATH . '/public/uploads';
         if (!is_dir($uploads_dir)) {
@@ -50,29 +55,48 @@ class Index
             if(move_uploaded_file($tmp_name, "$uploads_dir/$name")){
                 //搜索topface
                 $res = YouTu::faceidentifyurl($this->base_url.$name, $group_id);
-                //新增优图个体
-                $re = YouTu::newpersonurl($this->base_url.$name, $person_id, [$group_id],$person_id, $this->base_url.$name);
-                //插入数据库
-                Db::table('face')->data(
-                    [
-                        'face_id' => $re['face_id'],
-                        'user_id' => $person_id,
-                        'nickName'=>$person_id,
-                        'img_url' => $this->base_url.$name,
-                        'we_group_id' => $group_id,
-                        'youtu_group_id' => $group_id,
-                        'appid' => '',
-                    ]
-                )->insert();
-
-                return json($res);
+                //查看个体是否存在
+                $youtu_group_id = Db::table('face')->where('person_id', $openid)->column('youtu_group_id')->find();
+                //存在，收费，删除现有
+                if(!empty($youtu_group_id)){
+                    $youtu_group_id = explode(',', $youtu_group_id);
+                    $youtu_group_id = in_array($group_id, $youtu_group_id) ? $youtu_group_id : array_push($youtu_group_id,$group_id);
+                    $re_del = json_decode(YouTu::delperson($openid));
+                    //删除成功
+                    if($re_del['errorCode'] == 0){
+                        //新增优图个体
+                        $newperson_re = YouTu::newpersonurl($this->base_url.$name, $openid, $youtu_group_id,$openid, $this->base_url.$name);
+                        //更新数据库face_id
+                        Db::table('face')->where('person_id', $openid)->update(['face_id' => $newperson_re['face_id'], 'youtu_group_id' => implode(',', $youtu_group_id)]);
+                    }else{
+                        //删除失败
+                        return json(['error'=> -1,'message' => '个体删除失败']);
+                    }
+                }else{
+                    //不存在
+                    //新增优图个体
+                    $newperson_re = YouTu::newpersonurl($this->base_url.$name, $openid, [$group_id],$openid, $this->base_url.$name);
+                    //插入数据库
+                    Db::table('face')->data(
+                        [
+                            'face_id' => $newperson_re['face_id'],
+                            'person_id' => $openid,
+                            'user_id' => $person_id,
+                            'nickName'=>$person_id,
+                            'img_url' => $this->base_url.$name,
+                            'we_group_id' => $group_id,
+                            'youtu_group_id' => $group_id,
+                            'appid' => '',
+                        ]
+                    )->insert();
+                }
 
             }else{
-                return json(['error'=> -1]);
+                return json(['error'=> -2, 'message'=>'文件上传失败']);
             }
 
         }else{
-            return json(['error'=> -2]);
+            return json(['error'=> -3, 'message'=>'文件上传失败']);
         }
 
     }
