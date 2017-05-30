@@ -73,9 +73,14 @@ class Index
                     if($re_del['errorcode'] == 0){
                         //新增优图个体
                         $newperson_re = YouTu::newpersonurl($this->base_url.$name, $openid, $youtu_group_id,$openid, $this->base_url.$name);
-                        //更新数据库face_id
-                        Db::table('face')->where('person_id', $openid)->update(['face_id' => $newperson_re['face_id'], 'youtu_group_id' => implode(',', $youtu_group_id)]);
-                        return $res;
+                        if($newperson_re['errorcode'] == 0){
+                            //更新数据库face_id
+                            Db::table('face')->where('person_id', $openid)->update(['face_id' => $newperson_re['face_id'], 'youtu_group_id' => implode(',', $youtu_group_id)]);
+                            return json($res);
+                        }else{
+                            return json(['error'=> -5,'message' => '未检测到人脸']);
+                        }
+
                     }else{
                         //删除失败
                         return json(['error'=> -1,'message' => '个体删除失败']);
@@ -84,19 +89,24 @@ class Index
                     //不存在
                     //新增优图个体
                     $newperson_re = YouTu::newpersonurl($this->base_url.$name, $openid, [$group_id],$openid, $this->base_url.$name);
-                    //插入数据库
-                    Db::table('face')->data(
-                        [
-                            'face_id' => $newperson_re['face_id'],
-                            'person_id' => $openid,
-                            'user_id' => $person_id,
-                            'nickName'=>$person_id,
-                            'img_url' => $this->base_url.$name,
-                            'we_group_id' => $group_id,
-                            'youtu_group_id' => $group_id,
-                            'appid' => '',
-                        ]
-                    )->insert();
+                    if($newperson_re['errorcode'] ==0){
+                        //插入数据库
+                        Db::table('face')->data(
+                            [
+                                'face_id' => $newperson_re['face_id'],
+                                'person_id' => $openid,
+                                'user_id' => $person_id,
+                                'nickName'=>$person_id,
+                                'img_url' => $this->base_url.$name,
+                                'we_group_id' => $group_id,
+                                'youtu_group_id' => $group_id,
+                                'appid' => '',
+                            ]
+                        )->insert();
+                    }else{
+                        return json(['error'=> -6,'message' => '人脸识别失败']);
+                    }
+
                 }
 
             }else{
