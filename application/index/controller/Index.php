@@ -69,9 +69,8 @@ class Index
                     $youtu_group_id = explode(',', $youtu_group_id);
                     $youtu_group_id = in_array($group_id, $youtu_group_id) ? $youtu_group_id : array_push($youtu_group_id,$group_id);
                     $re_del = YouTu::delperson($openid);
-                    print_r($re_del);die;
                     //删除成功
-                    if($re_del['errorCode'] == 0){
+                    if($re_del['errorcode'] == 0){
                         //新增优图个体
                         $newperson_re = YouTu::newpersonurl($this->base_url.$name, $openid, $youtu_group_id,$openid, $this->base_url.$name);
                         //更新数据库face_id
