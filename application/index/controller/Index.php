@@ -50,6 +50,7 @@ class Index
          $group_id = 'test_group_id';
         $person_id = 'test_person_id'.rand(1,10000);
         $openid = Request::instance()->param('openid');
+        $nickName = Request::instance()->param('nickname');
         header('Content-type: application/json');
         $uploads_dir = ROOT_PATH . '/public/uploads';
         if (!is_dir($uploads_dir)) {
@@ -60,8 +61,7 @@ class Index
             $tmp_name = $_FILES ["file"]["tmp_name"];
             $name = time() . $_FILES ["file"]["name"];
             if(move_uploaded_file($tmp_name, "$uploads_dir/$name")){
-                //搜索topface
-                $res = YouTu::faceidentifyurl($this->base_url.$name, $group_id);
+
                 //查看个体是否存在
                 $youtu_group_id = Db::table('face')->where('person_id', $openid)->value('youtu_group_id');
                 //存在，收费，删除现有
@@ -69,10 +69,12 @@ class Index
                     $youtu_group_id = explode(',', $youtu_group_id);
                     $youtu_group_id = in_array($group_id, $youtu_group_id) ? $youtu_group_id : array_push($youtu_group_id,$group_id);
                     $re_del = YouTu::delperson($openid);
+                    //搜索topface
+                    $res = YouTu::faceidentifyurl($this->base_url.$name, $group_id);
                     //删除成功
                     if($re_del['errorcode'] == 0){
                         //新增优图个体
-                        $newperson_re = YouTu::newpersonurl($this->base_url.$name, $openid, $youtu_group_id,$openid, $this->base_url.$name);
+                        $newperson_re = YouTu::newpersonurl($this->base_url.$name, $openid, $youtu_group_id,$nickName, json_encode(['img'=>$this->base_url.$name, 'nickname' => $nickName]));
                         if($newperson_re['errorcode'] == 0){
                             //更新数据库face_id
                             Db::table('face')->where('person_id', $openid)->update(['face_id' => $newperson_re['face_id'], 'youtu_group_id' => implode(',', $youtu_group_id)]);
