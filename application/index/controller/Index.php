@@ -78,12 +78,12 @@ class Index
                             Db::table('face')->where('person_id', $openid)->update(['face_id' => $newperson_re['face_id'], 'youtu_group_id' => implode(',', $youtu_group_id)]);
                             return json($res);
                         }else{
-                            return json(['error'=> -5,'message' => '未检测到人脸']);
+                            return json($newperson_re);
                         }
 
                     }else{
                         //删除失败
-                        return json(['error'=> -1,'message' => '个体删除失败']);
+                        return json(['errorcode'=> -1,'errormsg' => '个体删除失败']);
                     }
                 }else{
                     //不存在
@@ -104,17 +104,17 @@ class Index
                             ]
                         )->insert();
                     }else{
-                        return json(['error'=> -6,'message' => '人脸识别失败', 'info'=>$newperson_re]);
+                        return json(['errorcode'=> -6,'errormsg' => '人脸识别失败', 'info'=>$newperson_re]);
                     }
 
                 }
 
             }else{
-                return json(['error'=> -2, 'message'=>'文件上传失败']);
+                return json(['errorcode'=> -2, 'errormsg'=>'文件上传失败']);
             }
 
         }else{
-            return json(['error'=> -3, 'message'=>'文件上传失败']);
+            return json(['errorcode'=> -3, 'errormsg'=>'文件上传失败']);
         }
 
     }
