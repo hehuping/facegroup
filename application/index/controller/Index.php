@@ -52,8 +52,9 @@ class Index
          $group_id = 'test_group_id';
         $encryptedData = Request::instance()->param('encryptedData');
         $iv = Request::instance()->param('iv');
+        $session_key = Request::instance()->param('session_key');
 
-        $pc = new PHP\WXBizDataCrypt();
+        $pc = new PHP\WXBizDataCrypt($appid, $session_key);
         $errCode = $pc->decryptData($encryptedData, $iv, $data );
 
         $openid = Request::instance()->param('openid');
