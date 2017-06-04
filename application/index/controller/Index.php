@@ -56,12 +56,6 @@ class Index
         $pc = new PHP\WXBizDataCrypt();
         $errCode = $pc->decryptData($encryptedData, $iv, $data );
 
-        if ($errCode == 0) {
-            print($data . "\n");
-        } else {
-            print($errCode . "\n");
-        }
-
         $openid = Request::instance()->param('openid');
         $nickName = Request::instance()->param('nickname');
         header('Content-type: application/json');
@@ -90,6 +84,7 @@ class Index
                             $candidates[$k]['tag'] = json_decode($v['tag']);
                         }
                         $res['candidates'] = $candidates;
+                        $res['shareData'] = $data;
                         //新增优图个体
                         $newperson_re = YouTu::newpersonurl($this->base_url.$name, $openid, $youtu_group_id,$nickName, json_encode(['img'=>$this->base_url.$name, 'nickname' => $nickName]));
                         if($newperson_re['errorcode'] == 0){
