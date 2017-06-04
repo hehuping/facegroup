@@ -69,10 +69,14 @@ class Index
                     $youtu_group_id = explode(',', $youtu_group_id);
                     $youtu_group_id = in_array($group_id, $youtu_group_id) ? $youtu_group_id : array_push($youtu_group_id,$group_id);
                     $re_del = YouTu::delperson($openid);
-                    //搜索topface
-                    $res = YouTu::faceidentifyurl($this->base_url.$name, $group_id);
+
                     //删除成功
                     if($re_del['errorcode'] == 0){
+                        //搜索topface
+                        $res = YouTu::faceidentifyurl($this->base_url.$name, $group_id);
+                        foreach($res['candidates'] as $k=>$v){
+                            $res[$k]['tag'] = json_decode($v);
+                        }
                         //新增优图个体
                         $newperson_re = YouTu::newpersonurl($this->base_url.$name, $openid, $youtu_group_id,$nickName, json_encode(['img'=>$this->base_url.$name, 'nickname' => $nickName]));
                         if($newperson_re['errorcode'] == 0){
