@@ -54,6 +54,7 @@ class Index
         $iv = Request::instance()->param('iv');
         $session_key = Request::instance()->param('session_key');
 
+
         $pc = new ApiCrypt\WXBizDataCrypt($appid, $session_key);
         $errCode = $pc->decryptData($encryptedData, $iv, $data );
 
