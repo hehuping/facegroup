@@ -2,8 +2,8 @@
 
 namespace ApiCrypt;
 
-include_once "pkcs7Encoder.php";
-include_once "errorCode.php";
+include_once "PKCS7Encoder.php";
+include_once "ErrorCode.php";
 
 
 class WXBizDataCrypt

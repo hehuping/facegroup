@@ -1,5 +1,5 @@
-﻿﻿<?php
-
+<?php
+namespace ApiCrypt;
 /**
  * error code 说明.
  * <ul>

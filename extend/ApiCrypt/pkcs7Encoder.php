@@ -1,6 +1,6 @@
-﻿<?php
-
-include_once "errorCode.php";
+<?php
+namespace ApiCrypt;
+include_once "ErrorCode.php";
 
 /**
  * PKCS7Encoder class
