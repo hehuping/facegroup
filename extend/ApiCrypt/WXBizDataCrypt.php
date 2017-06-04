@@ -1,6 +1,6 @@
 ﻿<?php
 
-namespace PHP;
+namespace ApiCrypt;
 
 include_once "pkcs7Encoder.php";
 include_once "errorCode.php";
