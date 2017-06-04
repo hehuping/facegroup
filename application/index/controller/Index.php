@@ -61,7 +61,6 @@ class Index
             $tmp_name = $_FILES ["file"]["tmp_name"];
             $name = time() . $_FILES ["file"]["name"];
             if(move_uploaded_file($tmp_name, "$uploads_dir/$name")){
-                $res = YouTu::faceidentifyurl($this->base_url.$name, $group_id);
                 //查看个体是否存在
                 $youtu_group_id = Db::table('face')->where('person_id', $openid)->value('youtu_group_id');
                 //存在，收费，删除现有
@@ -72,7 +71,7 @@ class Index
                     //删除成功
                     if($re_del['errorcode'] == 0){
                         //搜索topface
-
+                        $res = YouTu::faceidentifyurl($this->base_url.$name, $group_id);
                         $candidates = $res['candidates'];
                         foreach($candidates as $k=>$v){
                             $candidates[$k]['tag'] = json_decode($v['tag']);
