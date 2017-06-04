@@ -74,9 +74,9 @@ class Index
                     if($re_del['errorcode'] == 0){
                         //搜索topface
                         $res = YouTu::faceidentifyurl($this->base_url.$name, $group_id);
-                        foreach($res['candidates'] as $k=>$v){
+                       /* foreach($res['candidates'] as $k=>$v){
                             $res[$k]['tag'] = json_decode($v);
-                        }
+                        }*/
                         //新增优图个体
                         $newperson_re = YouTu::newpersonurl($this->base_url.$name, $openid, $youtu_group_id,$nickName, json_encode(['img'=>$this->base_url.$name, 'nickname' => $nickName]));
                         if($newperson_re['errorcode'] == 0){
