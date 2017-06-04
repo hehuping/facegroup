@@ -75,7 +75,7 @@ class Index
 
                         $candidates = $res['candidates'];
                         foreach($candidates as $k=>$v){
-                            $candidates[$k]['tag'] = json_decode($v);
+                            $candidates[$k]['tag'] = json_decode($v['tag']);
                         }
                         $res['candidates'] = $candidates;
                         //新增优图个体
