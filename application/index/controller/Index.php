@@ -6,6 +6,7 @@ use TencentYoutuyun\YouTu;
 use think\Config;
 use think\Db;
 use think\Request;
+use PHP;
 
 class Index
 {
@@ -47,8 +48,20 @@ class Index
 
     public function uploadFace()
     {
+        $appid = 'wx4f4bc4dec97d474b';
          $group_id = 'test_group_id';
-        $person_id = 'test_person_id'.rand(1,10000);
+        $encryptedData = Request::instance()->param('encryptedData');
+        $iv = Request::instance()->param('iv');
+
+        $pc = new PHP\WXBizDataCrypt();
+        $errCode = $pc->decryptData($encryptedData, $iv, $data );
+
+        if ($errCode == 0) {
+            print($data . "\n");
+        } else {
+            print($errCode . "\n");
+        }
+
         $openid = Request::instance()->param('openid');
         $nickName = Request::instance()->param('nickname');
         header('Content-type: application/json');
@@ -101,8 +114,8 @@ class Index
                             [
                                 'face_id' => $newperson_re['face_id'],
                                 'person_id' => $openid,
-                                'user_id' => $person_id,
-                                'nickName'=>$person_id,
+                                'user_id' => $openid,
+                                'nickName'=>$nickName,
                                 'img_url' => $this->base_url.$name,
                                 'we_group_id' => $group_id,
                                 'youtu_group_id' => $group_id,
