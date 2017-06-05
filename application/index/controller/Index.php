@@ -57,6 +57,7 @@ class Index
 
         $pc = new ApiCrypt\WXBizDataCrypt($appid, $session_key);
         $errCode = $pc->decryptData($encryptedData, $iv, $data );
+        
 
         $openid = Request::instance()->param('openid');
         $nickName = Request::instance()->param('nickname');
