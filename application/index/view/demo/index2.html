@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <title>WeUI</title>
-    <link rel="stylesheet" href="/css/weui.css"/>
-    <link rel="stylesheet" href="/css/example.css"/>
-    <script src="/js/jquery1.7.2.min.js"></script>
-    <script src="/js/exif.js"></script>
-    <script src="/js/dist/lrz.all.bundle.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="/static/css/weui.css"/>
+    <link rel="stylesheet" href="/static/css/example.css"/>
+    <script src="/static/js/jquery1.7.2.min.js"></script>
+    <script src="/static/js/exif.js"></script>
+    <script src="/static/js/dist/lrz.all.bundle.js" type="text/javascript"></script>
 	 <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js" type="text/javascript"></script>
 	
 </head>
@@ -46,7 +46,7 @@ var localId = '';
         });
     }
 
-    function open(){
+    function opens(){
         wx.playVoice({
             localId: localId // 需要播放的音频的本地ID，由stopRecord接口获得
         });
@@ -94,7 +94,7 @@ var localId = '';
 <div class="weui_btn_area">
     <a href="javascript:;" class="weui_btn weui_btn_primary" onclick="start()" id="showLoadingToast">开始录音</a>
     <a href="javascript:;" class="weui_btn weui_btn_primary" onclick="stop()" id="">暂停录音</a>
-    <a href="javascript:;" class="weui_btn weui_btn_primary" onclick="open()" id="">播放录音</a>
+    <a href="javascript:;" class="weui_btn weui_btn_primary" onclick="opens()" id="">播放录音</a>
 </div>
 
 <!-- loading toast -->
