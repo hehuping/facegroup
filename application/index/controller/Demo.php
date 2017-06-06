@@ -23,8 +23,8 @@ class Demo extends \think\Controller
     public function getSgin(){
         $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={$this->appid}&secret={$this->secret}";
         $json = file_get_contents($url);
-        $token = json_decode($json);
-        $url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token={$token}&type=jsapi";
+        $token = (array)json_decode($json);
+        $url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token={$token['access_token']}&type=jsapi";
         $json = file_get_contents($url);
 
         $ticket = json_decode($json);
