@@ -31,7 +31,7 @@ class Demo extends \think\Controller
         $noncestr=str_shuffle('Wm3WZYTPz0wzccnW');
         $jsapi_ticket=$ticket['jsapi_ticket'];
         $timestamp=time();
-        $w_url='http://mp.weixin.qq.com?params=value';
+        $w_url='https://www.yiyazhe.com/index/demo/getSgin?'.$_SERVER['QUERY_STRING'];
 
         $jsapi_ticket=$ticket.'&noncestr='.$noncestr.'&timestamp='.$timestamp.'&url=http://mp.weixin.qq.com?params=value';
         $str = sha1($jsapi_ticket);
