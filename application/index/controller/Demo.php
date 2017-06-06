@@ -33,7 +33,7 @@ class Demo extends \think\Controller
         $timestamp=time();
         $w_url='https://www.yiyazhe.com/index/demo/getSgin';
 
-        $jsapi_ticket=$ticket.'&noncestr='.$noncestr.'&timestamp='.$timestamp.'&url=http://mp.weixin.qq.com?params=value';
+        $jsapi_ticket=$ticket.'&noncestr='.$noncestr.'&timestamp='.$timestamp.'&url='.$w_url;
         $str = sha1($jsapi_ticket);
 
 
