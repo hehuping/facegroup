@@ -23,15 +23,29 @@ class Demo extends \think\Controller
     public function getSgin(){
         $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={$this->appid}&secret={$this->secret}";
         $json = file_get_contents($url);
+        $token = json_decode($json);
+        $url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token={$token}&type=jsapi";
+        $json = file_get_contents($url);
 
-        print_r($json);
+        $ticket = json_decode($json);
+        $noncestr=str_shuffle('Wm3WZYTPz0wzccnW');
+        $jsapi_ticket=$ticket['jsapi_ticket'];
+        $timestamp=time();
+        $w_url='http://mp.weixin.qq.com?params=value';
+
+        $jsapi_ticket=$ticket.'&noncestr='.$noncestr.'&timestamp='.$timestamp.'&url=http://mp.weixin.qq.com?params=value';
+        $str = sha1($jsapi_ticket);
 
 
-       /* $this->assign([
-            'json'  => 'ThinkPHP',
-            'email' => 'thinkphp@qq.com'
+
+
+
+        $this->assign([
+            'noncestr'  =>$noncestr,
+            'time' => $timestamp,
+            'str' => $str,
         ]);
         // 模板输出
-        return $this->fetch('index');*/
+        return $this->fetch('index2');
     }
 }
