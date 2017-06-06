@@ -35,18 +35,22 @@ wx.config({
 var localId = '';
 
     function start(){
+        alert('start');
         wx.startRecord();
     }
 
     function stop(){
+        alert('stop');
         wx.stopRecord({
             success: function (res) {
                  localId = res.localId;
+                alert(localId);
             }
         });
     }
 
     function opens(){
+        alert('open');
         wx.playVoice({
             localId: localId // 需要播放的音频的本地ID，由stopRecord接口获得
         });
