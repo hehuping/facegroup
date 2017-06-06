@@ -27,7 +27,7 @@ class Demo extends \think\Controller
         $url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token={$token['access_token']}&type=jsapi";
         $json = file_get_contents($url);
 
-        $ticket = json_decode($json);
+        $ticket = (array)json_decode($json);
         $noncestr=str_shuffle('Wm3WZYTPz0wzccnW');
         $jsapi_ticket=$ticket['jsapi_ticket'];
         $timestamp=time();
