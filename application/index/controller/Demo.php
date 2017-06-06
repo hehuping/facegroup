@@ -37,6 +37,7 @@ class Demo extends \think\Controller
         $str = sha1($jsapi_ticket);
 
 
+        echo $jsapi_ticket;
 
 
 
