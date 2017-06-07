@@ -28,12 +28,13 @@ class Demo extends \think\Controller
         $json = file_get_contents($url);
 
         $ticket = (array)json_decode($json);
+        $str = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
         $noncestr=str_shuffle('Wm3WZYTPz0wzccnW');
         $jsapi_ticket=$ticket['ticket'];
         $timestamp=time();
         $w_url='https://www.yiyazhe.com/index/demo/getSgin';
 
-        $jsapi_ticket=$jsapi_ticket.'&noncestr='.$noncestr.'&timestamp='.$timestamp.'&url='.$w_url;
+        $jsapi_ticket='jsapi_ticket='.$jsapi_ticket.'&noncestr='.$noncestr.'&timestamp='.$timestamp.'&url='.$w_url;
         $str = sha1($jsapi_ticket);
 
 
